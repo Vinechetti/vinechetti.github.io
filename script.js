@@ -1,44 +1,26 @@
-async function generateRandomNumber() {
-    try {
-        const response = await fetch('https://vinechetti.xyz/files/mushvigNumber.json');
-        if (!response.ok) {
-            throw new Error('Failed to fetch number');
-        }
-        const data = await response.json();
-        const today = new Date().toISOString().split('T')[0];
-        if (data.date === today && data.number) {
-            document.getElementById('number').textContent = data.number;
-        } else {
-            const newNumber = Math.floor(100000000 + Math.random() * 900000000);
-            const newData = { date: today, number: newNumber };
-            const saveResponse = await fetch('https://vinechetti.xyz/server.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newData)
-            });
-            if (!saveResponse.ok) {
-                throw new Error('Failed to save new number');
-            }
-            document.getElementById('number').textContent = newNumber;
-        }
-    } catch (error) {
-        console.error(error);
-        alert('Failed to get or save random number. Please try again later.');
-    }
+async function generateMushvigNumber() {
+    const today = new Date();
+    const dateString = `${today.getFullYear()}${(today.getMonth() + 1).toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}`;
+    const encoder = new TextEncoder();
+    const data = encoder.encode(dateString);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = Array.from(new Uint8Array(hashBuffer))
+        .map(byte => ('00' + byte.toString(16)).slice(-2))
+        .join('')
+        .substring(0, 9);
+    const convertHexToNumber = (hexChar) => {
+        const hexToNumber = {
+            'a': '0', 'b': '1', 'c': '2', 'd': '3', 'e': '4', 'f': '5'
+        };
+        return hexToNumber[hexChar] || hexChar;
+    };
+    const hashedString = hashHex.split('').map(convertHexToNumber).join('');
+    return hashedString;
 }
 
-window.onload = async function () {
-    try {
-        const response = await fetch('https://vinechetti.xyz/files/mushvigNumber.json');
-        if (!response.ok) {
-            throw new Error('Failed to fetch number');
-        }
-        const data = await response.json();
-        document.getElementById('number').textContent = data.number;
-    } catch (error) {
-        console.error(error);
-        alert('Failed to get random number. Please try again later.');
-    }
-};
+generateMushvigNumber().then(hashedNumber => {
+    document.getElementById('number').textContent = hashedNumber;
+}).catch(error => {
+    console.error('Error generating Mushvig Number:', error);
+});
