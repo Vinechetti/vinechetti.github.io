@@ -6,53 +6,47 @@ body {
     height: 100vh;
     background-color: #333;
     color: #00FF00;
-    font-family: 'Gloria Hallelujah', cursive;
+    font-family: 'Poiret One', cursive;
 }
 
-.container {
-    position: relative;
-    text-align: center;
+.frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50vw;
+    height: 50vw;
+    border: 4px solid #00FF00;
+    transition: border-color 0.3s ease;
 }
+
 
 .letter {
-    font-size: 15rem;
+    font-size: 25vw;
     transition: color 0.3s ease;
 }
 
-.rectangle {
-    position: absolute;
-    background-color: #00FF00;
-    width: 2rem;
-    height: 1rem;
-    transition: background-color 0.3s ease;
+.frame:hover {
+    border-color: #66FF66;
 }
 
-.rectangle-top-left {
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, -100%);
+.frame:hover .letter {
+    color: #66FF66;
 }
 
-.rectangle-top-right {
-    top: 0;
-    right: 50%;
-    transform: translate(50%, -100%);
+.mushvig_number {
+    text-align: center;
 }
 
-.rectangle-bottom-left {
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 100%);
+.mushvig_number p {
+    font-size: 3vw;
+    line-height: 10vw;
+    font-weight: bold;
+    color: #00FF00;
 }
 
-.rectangle-bottom-right {
-    bottom: 0;
-    right: 50%;
-    transform: translate(50%, 100%);
-}
-
-.container:hover .letter,
-.container:hover .rectangle {
-    color: #66FF66; /* Slightly lighter green */
-    background-color: #66FF66;
+#number {
+    text-align: center;
+    font-size: 3vw;
+    font-weight: bold;
+    color: #00FF00;
 }
