@@ -1,0 +1,51 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #333;
+    color: #00FF00;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    position: relative;
+    text-align: center;
+}
+
+.letter {
+    font-size: 10rem;
+    transition: color 0.3s ease;
+}
+
+.bracket {
+    position: absolute;
+    font-size: 2rem;
+    transition: color 0.3s ease;
+}
+
+.bracket-top-left {
+    top: 0;
+    left: 0;
+}
+
+.bracket-top-right {
+    top: 0;
+    right: 0;
+}
+
+.bracket-bottom-left {
+    bottom: 0;
+    left: 0;
+}
+
+.bracket-bottom-right {
+    bottom: 0;
+    right: 0;
+}
+
+.container:hover .letter,
+.container:hover .bracket {
+    color: #66FF66;
+}
