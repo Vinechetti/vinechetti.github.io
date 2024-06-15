@@ -6,7 +6,7 @@ body {
     height: 100vh;
     background-color: #333;
     color: #00FF00;
-    font-family: Arial, sans-serif;
+    font-family: 'Gloria Hallelujah', cursive;
 }
 
 .container {
@@ -15,37 +15,44 @@ body {
 }
 
 .letter {
-    font-size: 10rem;
+    font-size: 15rem;
     transition: color 0.3s ease;
 }
 
-.bracket {
+.rectangle {
     position: absolute;
-    font-size: 2rem;
-    transition: color 0.3s ease;
+    background-color: #00FF00;
+    width: 2rem;
+    height: 1rem;
+    transition: background-color 0.3s ease;
 }
 
-.bracket-top-left {
+.rectangle-top-left {
     top: 0;
-    left: 0;
+    left: 50%;
+    transform: translate(-50%, -100%);
 }
 
-.bracket-top-right {
+.rectangle-top-right {
     top: 0;
-    right: 0;
+    right: 50%;
+    transform: translate(50%, -100%);
 }
 
-.bracket-bottom-left {
+.rectangle-bottom-left {
     bottom: 0;
-    left: 0;
+    left: 50%;
+    transform: translate(-50%, 100%);
 }
 
-.bracket-bottom-right {
+.rectangle-bottom-right {
     bottom: 0;
-    right: 0;
+    right: 50%;
+    transform: translate(50%, 100%);
 }
 
 .container:hover .letter,
-.container:hover .bracket {
-    color: #66FF66;
+.container:hover .rectangle {
+    color: #66FF66; /* Slightly lighter green */
+    background-color: #66FF66;
 }
