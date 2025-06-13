@@ -33,20 +33,44 @@ body {
     color: #66FF66;
 }
 
+.demos {
+    text-align: center;
+    font-size: 1.2vw;
+    font-weight: bold;
+    color: #00FF00;
+}
+
+.demos a {
+    color: #00FF00;
+    text-decoration: underline;
+}
+
+.demos a:hover {
+    opacity: 0.8;
+}
+
 .mushvig_number {
     text-align: center;
 }
 
 .mushvig_number p {
-    font-size: 1.5vw;
     line-height: 3vw;
     font-weight: bold;
     color: #00FF00;
 }
 
+
 #number {
     text-align: center;
-    font-size: 1.5vw;
     font-weight: bold;
     color: #00FF00;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    color: #00FF00;
+    background: linear-gradient(transparent, rgba(20, 20, 20, 0.3));
 }
