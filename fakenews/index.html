@@ -134,7 +134,7 @@
             const prob = sigmoid(logits[0]);
             const prediction = prob >= 0.5 ? 1 : 0;
 
-            document.getElementById('result').textContent = `Prediction: ${prediction >= 0.5 ? "true" : "false"} with ${prediction >= 0.5 ? (prob * 100).toFixed(2) : ((1-prob)*100.toFixed(2))}% confidence`;
+            document.getElementById('result').textContent = `Prediction: ${prediction >= 0.5 ? "true" : "false"} with ${prediction >= 0.5 ? (prob * 100).toFixed(2) : ((1-prob)*100).toFixed(2)}% confidence`;
         }
     </script>
     <footer class="footer">
