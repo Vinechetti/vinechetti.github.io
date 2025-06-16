@@ -56,14 +56,14 @@ body {
 .mushvig_number p {
     line-height: 3vw;
     font-weight: bold;
-    color: #00FF00;
+    color: #333;
 }
 
 
 #number {
     text-align: center;
     font-weight: bold;
-    color: #00FF00;
+    color: #333;
 }
 
 .footer {

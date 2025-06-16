@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Fake News Classification</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            background-color: #4df758;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 360px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border: none;
+            background-color: #b7f7bb;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            box-shadow: 0 0 5px #32a852;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: none;
+            background-color: #b7f7bb;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #9be19e;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #20581b;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            padding: 15px 0;
+            font-family: sans-serif;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .footer a:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Title Classification</h2>
+        <input type="text" id="titleInput" placeholder="Enter title here" />
+        <button onclick="classifyTitle()">Classify</button>
+        <div id="result"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+    <script type="module">
+        import { AutoTokenizer } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0';
+
+        const session = await ort.InferenceSession.create('model/quantized_distilbert.onnx');
+        const tokenizer = await AutoTokenizer.from_pretrained('Xenova/distilbert-base-uncased');
+
+        window.classifyTitle = async function () {
+            const inputText = document.getElementById('titleInput').value;
+            if (!inputText) {
+                document.getElementById('result').textContent = "Please enter a title.";
+                return;
+            }
+            const encoded = await tokenizer(inputText, {
+                padding: true,
+                truncation: true,
+                max_length: 32,
+                return_tensors: 'np'
+            });
+
+            const inputIdsArray = encoded.input_ids.data; // might be 1D like [101, 2034, 102]
+            const attentionMaskArray = encoded.attention_mask.data;
+
+            const batchSize = 1;
+            const seqLen = inputIdsArray.length;
+
+            const input_ids = new ort.Tensor('int64', BigInt64Array.from(inputIdsArray), [batchSize, seqLen]);
+            const attention_mask = new ort.Tensor('int64', BigInt64Array.from(attentionMaskArray), [batchSize, seqLen]);
+
+            const outputs = await session.run({
+                input_ids,
+                attention_mask
+            });
+
+            const logits = outputs.logits.data;
+            const sigmoid = x => 1 / (1 + Math.exp(-x));
+            const prob = sigmoid(logits[0]);
+            const prediction = prob >= 0.5 ? 1 : 0;
+
+            document.getElementById('result').textContent = `Prediction: ${prediction >= 0.5 ? "true" : "false"} with ${(prob * 100).toFixed(2)}% confidence`;
+        }
+    </script>
+    <footer class="footer">
+        This is a demo of the Fake News Classification project<br>
+        Please note that the inference is run on client-side, the peformance may vary depending on your device.<br>
+
+        <center>
+            <a href="https://github.com/Vinechetti/Fake-News-and-Clickbait-detection">
+                Original repo
+            </a>
+        </center>
+    </footer>
+</body>
+
+</html>
