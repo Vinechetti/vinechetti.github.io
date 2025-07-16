@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Grudusk 2.0</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <style>
+	body {
+	  margin: 0;
+	  padding: 0;
+	  background-color: #ffb6c1;
+	  font-family: Oswald;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  justify-content: center;
+	  height: 100vh;
+	  overflow: hidden;
+	  text-align: center;
+	}
+
+    h1 {
+      margin-top: 100px;
+      font-size: 48px;
+      font-weight: bold;
+      color: black;
+    }
+
+    .countdown-container {
+      display: inline-flex;
+      margin-top: 40px;
+      padding: 40px;
+      background-color: #ff5c8a; /* darker pink */
+      border-radius: 20px;
+      gap: 10px;
+    }
+
+    .box {
+      background-color: #ffb6c1; /* matching light pink */
+      width: 60px;
+      height: 60px;
+      border-radius: 10px;
+      font-size: 30px;
+      font-weight: bold;
+      color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .colon {
+      font-size: 30px;
+      font-weight: bold;
+      color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+	
+	.image-row img {
+	  width: 30vw;
+	  max-width: 150px;
+	  height: auto;
+	  border-radius: 10px;
+	}
+
+	.image-row {
+	  display: flex;
+	  justify-content: center;
+	  flex-wrap: wrap;
+	  gap: 10px;
+	  margin-top: 40px;
+	}
+  </style>
+</head>
+<body>
+
+  <h1>GRUDUSK 2.0 JUŻ ZA</h1>
+
+  <div class="countdown-container">
+    <div class="box" id="days">00</div>
+    <div class="colon">:</div>
+    <div class="box" id="hours">00</div>
+    <div class="colon">:</div>
+    <div class="box" id="minutes">00</div>
+    <div class="colon">:</div>
+    <div class="box" id="seconds">00</div>
+  </div>
+  
+   <div class="image-row">
+    <img src="img.png" alt="piwo">
+    <img src="img.png" alt="piwo 2">
+    <img src="img.png" alt="piwo 3">
+   </div>
+
+  <script>
+    const targetDate = new Date("2025-09-26T00:00:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance <= 0) {
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").textContent = String(days).padStart(2, '0');
+      document.getElementById("hours").textContent = String(hours).padStart(2, '0');
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // Initial call
+  </script>
+
+</body>
+</html>
+</html>
